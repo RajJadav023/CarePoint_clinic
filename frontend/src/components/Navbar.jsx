@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const links = [
   { to: "/patients", label: "Patients" },
@@ -8,6 +9,8 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { doctor, signOut } = useAuth();
+
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -34,7 +37,10 @@ export default function Navbar() {
             </NavLink>
           ))}
         </nav>
-        <span className="clinic-label"><span className="status-dot" /> Clinic workspace</span>
+        <div className="account-actions">
+          <span className="clinic-label"><span className="status-dot" />{doctor?.name || "Doctor"}</span>
+          <button className="signout-button" type="button" onClick={signOut}>Sign out</button>
+        </div>
       </div>
     </header>
   );
